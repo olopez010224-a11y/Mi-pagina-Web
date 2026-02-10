@@ -77,19 +77,27 @@
         to { box-shadow: 0 0 30px #2ecc71; }
     }
 
+    /* ♥ CORAZONES CAYENDO ♥ */
     .heart {
         position: fixed;
-        bottom: -20px;
+        top: -20px;
         font-size: 22px;
         color: #e63946;
-        animation: floatUp 6s linear infinite;
-        opacity: 0.7;
+        animation: fall 6s linear infinite;
+        opacity: 0.8;
         z-index: 1;
+        pointer-events: none;
     }
 
-    @keyframes floatUp {
-        from { transform: translateY(0); opacity: 0; }
-        to { transform: translateY(-120vh); opacity: 1; }
+    @keyframes fall {
+        from {
+            transform: translateY(0);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(120vh);
+            opacity: 1;
+        }
     }
 </style>
 </head>
@@ -97,6 +105,7 @@
 <body>
 
 <div class="page">
+    <!-- FOTO OPCIONAL -->
     <img src="mi-foto.jpg" alt="Nuestra foto" onerror="this.style.display='none'">
 
     <h1>¿Quieres ser mi Valentine? ♥</h1>
@@ -110,13 +119,16 @@
     let noScale = 1;
     let noClicks = 0;
 
+    // ♥ Corazones desde el inicio
+    startHearts();
+
     function shrinkNo() {
         noClicks++;
 
         const noBtn = document.getElementById("noBtn");
         const yesBtn = document.getElementById("yesBtn");
 
-        // NO se encoge FUERTE
+        // NO se hace más pequeño
         noScale -= 0.5;
         if (noScale < 0.1) noScale = 0.1;
 
@@ -124,16 +136,16 @@
         noBtn.style.opacity = noScale;
         noBtn.classList.add("shake");
 
-        // SÍ crece más
+        // SÍ crece
         yesScale += 0.6;
         yesBtn.style.transform = `scale(${yesScale})`;
 
-        // Desaparece al 3er intento
+        // NO desaparece al 3er intento
         if (noClicks >= 3) {
             noBtn.style.display = "none";
         }
 
-        // El SÍ domina
+        // Final automático
         if (yesScale > 5) {
             accepted();
         }
@@ -150,28 +162,3 @@
                 font-family:'Segoe UI', Arial;
                 text-align:center;
             ">
-                <h1 style="color:white;font-size:36px; line-height:1.4;">
-                    No puedes resistirte a mis encantos ♥<br>
-                    ¿A qué hora paso por ti?
-                </h1>
-            </div>
-        `;
-        startHearts();
-    }
-
-    function startHearts() {
-        setInterval(() => {
-            const heart = document.createElement("div");
-            heart.classList.add("heart");
-            heart.innerHTML = "♥";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.fontSize = (16 + Math.random() * 20) + "px";
-            document.body.appendChild(heart);
-
-            setTimeout(() => heart.remove(), 6000);
-        }, 300);
-    }
-</script>
-
-</body>
-</html>
