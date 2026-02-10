@@ -17,28 +17,24 @@
     }
 
     .page {
-        display: none;
         text-align: center;
         background: white;
         padding: 40px;
         border-radius: 25px;
         box-shadow: 0 15px 35px rgba(0,0,0,0.25);
         max-width: 450px;
-        z-index: 2;
         position: relative;
-    }
-
-    .active {
-        display: block;
+        z-index: 2;
     }
 
     h1 {
         color: #e63946;
     }
 
-    p {
-        font-size: 18px;
-        color: #555;
+    img {
+        max-width: 100%;
+        border-radius: 20px;
+        margin-bottom: 20px;
     }
 
     button {
@@ -51,31 +47,34 @@
         transition: 0.3s;
     }
 
-    .start-btn {
-        background: #e63946;
-        color: white;
-    }
-
     .yes-btn {
         background: #2ecc71;
         color: white;
         font-size: 22px;
         padding: 20px 50px;
+        animation: glow 1.5s infinite alternate;
     }
 
     .no-btn {
         background: #e63946;
         color: white;
-        font-size: 16px;
-        padding: 15px 25px;
-        position: relative;
-        z-index: 3;
     }
 
-    img {
-        max-width: 100%;
-        border-radius: 20px;
-        margin-bottom: 20px;
+    .shake {
+        animation: shake 0.3s infinite;
+    }
+
+    @keyframes shake {
+        0% { transform: translate(0); }
+        25% { transform: translate(2px, -2px); }
+        50% { transform: translate(-2px, 2px); }
+        75% { transform: translate(2px, 2px); }
+        100% { transform: translate(0); }
+    }
+
+    @keyframes glow {
+        from { box-shadow: 0 0 10px #2ecc71; }
+        to { box-shadow: 0 0 30px #2ecc71; }
     }
 
     .heart {
@@ -102,46 +101,35 @@
 
 <body>
 
-<!-- PÁGINA 1 -->
-<div class="page active" id="page1">
-    <h1>Hola, amochis 💕</h1>
-    <p>Tengo una pregunta muy especial para ti…</p>
-    <button class="start-btn" onclick="goToQuestion()">Haz clic aquí 💘</button>
-</div>
-
-<!-- PÁGINA 2 -->
-<div class="page" id="page2">
+<div class="page">
     <!-- CAMBIA AQUÍ TU FOTO -->
     <img src="mi-foto.jpg" alt="Nuestra foto">
 
     <h1>¿Quieres ser mi Valentine? 💖</h1>
 
-    <button class="yes-btn" onclick="accepted()">SÍ 💘</button>
-    <button class="no-btn" id="noBtn" onclick="growNo()">No 😅</button>
+    <button class="yes-btn shake" id="yesBtn" onclick="accepted()">SÍ 💘</button>
+    <button class="no-btn" id="noBtn" onclick="growYes()">No 😅</button>
 </div>
 
 <script>
     let scale = 1;
+    let noClicks = 0;
 
-    function goToQuestion() {
-        document.getElementById("page1").classList.remove("active");
-        document.getElementById("page2").classList.add("active");
-        startHearts();
-    }
-
-    function growNo() {
+    function growYes() {
+        noClicks++;
         scale += 0.4;
+
+        const yesBtn = document.getElementById("yesBtn");
         const noBtn = document.getElementById("noBtn");
-        noBtn.style.transform = `scale(${scale})`;
+
+        yesBtn.style.transform = `scale(${scale})`;
+
+        if (noClicks >= 3) {
+            noBtn.style.display = "none";
+        }
 
         if (scale > 5) {
-            noBtn.style.position = "fixed";
-            noBtn.style.top = "0";
-            noBtn.style.left = "0";
-            noBtn.style.width = "100vw";
-            noBtn.style.height = "100vh";
-            noBtn.style.borderRadius = "0";
-            noBtn.innerHTML = "JAJA OK, YA DI QUE SÍ 😭💖";
+            accepted();
         }
     }
 
@@ -156,8 +144,9 @@
                 font-family:'Segoe UI', Arial;
                 text-align:center;
             ">
-                <h1 style="color:white;font-size:42px;">
-                    💕 ¿A qué hora paso por ti? 💕
+                <h1 style="color:white;font-size:38px; line-height:1.4;">
+                    😏 No puedes resistirte a mis encantos 😏<br>
+                    ¿A qué hora paso por ti?
                 </h1>
             </div>
         `;
@@ -173,14 +162,13 @@
             heart.style.fontSize = (15 + Math.random() * 25) + "px";
             document.body.appendChild(heart);
 
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
-        }, 400);
+            setTimeout(() => heart.remove(), 6000);
+        }, 350);
     }
 </script>
 
 </body>
 </html>
+
 
 
