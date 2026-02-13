@@ -22,13 +22,20 @@
         padding: 40px;
         border-radius: 25px;
         box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-        max-width: 450px;
+        max-width: 500px;
         position: relative;
         z-index: 2;
     }
 
     h1 {
         color: #e63946;
+    }
+
+    .countdown {
+        font-size: 22px;
+        margin-top: 20px;
+        color: white;
+        font-weight: bold;
     }
 
     button {
@@ -70,15 +77,24 @@
     }
 
     @keyframes fall {
-        from {
-            transform: translateY(0);
-            opacity: 0;
-        }
-        to {
-            transform: translateY(120vh);
-            opacity: 1;
-        }
+        from { transform: translateY(0); opacity: 0; }
+        to { transform: translateY(120vh); opacity: 1; }
     }
+
+    .final-image {
+        width: 220px;
+        margin-top: 20px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0); }
+    }
+
 </style>
 </head>
 
@@ -133,6 +149,7 @@ function finalScreen() {
     document.body.innerHTML = `
         <div style="
             display:flex;
+            flex-direction:column;
             justify-content:center;
             align-items:center;
             height:100vh;
@@ -141,29 +158,47 @@ function finalScreen() {
             text-align:center;
             overflow:hidden;
         ">
-            <h1 style="color:white;font-size:38px;max-width:600px;">
-                Paso por ti a las 8AM el 14 de febrero 💘<br><br>
+            <h1 style="color:white;font-size:34px;max-width:600px;">
+                Paso por ti a las 8AM el 14 de febrero 💘<br>
                 Tú nomás ponte linda 😌✨
             </h1>
+
+            <div class="countdown" id="countdown"></div>
+
+            <img src="https://cdn.wallpapersafari.com/83/43/QHOkKN.jpg" class="final-image">
         </div>
     `;
 
     megaHearts();
+    startCountdown();
+}
+
+function startCountdown() {
+    const targetDate = new Date("February 14, 2026 08:00:00").getTime();
+
+    setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML =
+            "Faltan " + days + " días " + hours + "h " + minutes + "m " + seconds + "s";
+    }, 1000);
 }
 
 function startHearts() {
-    setInterval(() => {
-        createHeart(400);
-    }, 400);
+    setInterval(() => createHeart(), 400);
 }
 
 function megaHearts() {
-    setInterval(() => {
-        createHeart(100);
-    }, 100);
+    setInterval(() => createHeart(), 100);
 }
 
-function createHeart(speed) {
+function createHeart() {
     const heart = document.createElement('div');
     heart.innerHTML = "♥";
     heart.classList.add('heart');
@@ -177,4 +212,3 @@ function createHeart(speed) {
 
 </body>
 </html>
-
