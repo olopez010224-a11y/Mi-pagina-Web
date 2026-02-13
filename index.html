@@ -1,10 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mi Valentine ♥</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .page {
+        text-align: center;
+        background: white;
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        max-width: 450px;
+        position: relative;
+        z-index: 2;
+    }
+
+    h1 {
+        color: #e63946;
+    }
+
+    button {
+        border: none;
+        border-radius: 30px;
+        padding: 15px 30px;
+        font-size: 18px;
+        cursor: pointer;
+        margin: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .yes-btn {
+        background: #2ecc71;
+        color: white;
+        font-size: 22px;
+        padding: 20px 50px;
+        animation: glow 1.5s infinite alternate;
+    }
+
+    .no-btn {
+        background: #e63946;
+        color: white;
+    }
+
+    @keyframes glow {
+        from { box-shadow: 0 0 10px #2ecc71; }
+        to { box-shadow: 0 0 30px #2ecc71; }
+    }
+
+    .heart {
+        position: fixed;
+        top: -20px;
+        font-size: 22px;
+        color: #e63946;
+        animation: fall 6s linear infinite;
+        opacity: 0.8;
+        pointer-events: none;
+    }
+
+    @keyframes fall {
+        from {
+            transform: translateY(0);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(120vh);
+            opacity: 1;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="page">
+    <h1>¿Quieres ser mi Valentine? ♥</h1>
+    <button class="yes-btn" onclick="firstYes()">SÍ ♥</button>
+    <button class="no-btn">No</button>
+</div>
+
 <script>
-    let escapeCount = 0;
 
-    startHearts();
+let escapeCount = 0;
 
-    function accepted() {
-        document.body.innerHTML = `
+startHearts();
+
+function firstYes() {
+    document.body.innerHTML = `
         <div style="
             display:flex;
             justify-content:center;
@@ -15,31 +108,29 @@
             text-align:center;
         ">
             <div class="page">
-                <h1 style="color:#e63946;">
-                    ¿Estás segura que queremos gastar??
-                </h1>
-                <button class="yes-btn" id="confirmYes" onclick="escapeYes()">Sí</button>
+                <h1>¿Estás segura que queremos gastar? 😏</h1>
+                <button class="yes-btn" id="escapeBtn" onclick="escapeYes()">Sí</button>
                 <button class="no-btn" onclick="finalScreen()">No</button>
             </div>
         </div>
-        `;
+    `;
+}
+
+function escapeYes() {
+    const btn = document.getElementById("escapeBtn");
+
+    if (escapeCount < 2) {
+        btn.style.position = "absolute";
+        btn.style.left = Math.random() * 70 + "%";
+        btn.style.top = Math.random() * 70 + "%";
+        escapeCount++;
+    } else {
+        finalScreen();
     }
+}
 
-    function escapeYes() {
-        const btn = document.getElementById("confirmYes");
-
-        if (escapeCount < 2) {
-            btn.style.position = "absolute";
-            btn.style.left = Math.random() * 70 + "%";
-            btn.style.top = Math.random() * 70 + "%";
-            escapeCount++;
-        } else {
-            finalScreen();
-        }
-    }
-
-    function finalScreen() {
-        document.body.innerHTML = `
+function finalScreen() {
+    document.body.innerHTML = `
         <div style="
             display:flex;
             justify-content:center;
@@ -52,34 +143,38 @@
         ">
             <h1 style="color:white;font-size:38px;max-width:600px;">
                 Paso por ti a las 8AM el 14 de febrero 💘<br><br>
-                Tú nomás ponte linda ✨
+                Tú nomás ponte linda 😌✨
             </h1>
         </div>
-        `;
+    `;
 
-        megaHearts();
-    }
+    megaHearts();
+}
 
-    function startHearts() {
-        setInterval(() => {
-            createHeart();
-        }, 400);
-    }
+function startHearts() {
+    setInterval(() => {
+        createHeart(400);
+    }, 400);
+}
 
-    function megaHearts() {
-        setInterval(() => {
-            createHeart();
-        }, 100);
-    }
+function megaHearts() {
+    setInterval(() => {
+        createHeart(100);
+    }, 100);
+}
 
-    function createHeart() {
-        const heart = document.createElement('div');
-        heart.innerHTML = "♥";
-        heart.classList.add('heart');
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.fontSize = (15 + Math.random() * 30) + 'px';
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 6000);
-    }
+function createHeart(speed) {
+    const heart = document.createElement('div');
+    heart.innerHTML = "♥";
+    heart.classList.add('heart');
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (15 + Math.random() * 30) + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}
+
 </script>
+
+</body>
+</html>
 
