@@ -160,4 +160,75 @@
         yesScale += 0.5;
         yesBtn.style.transform = `scale(${yesScale})`;
 
-        if (noClicks
+        if (noClicks >= 3) {
+            noBtn.style.display = "none";
+        }
+
+        if (yesScale > 5) {
+            accepted();
+        }
+    }
+
+    function fireworkExplosion(x, y) {
+        for (let i = 0; i < 20; i++) {
+            const fw = document.createElement("div");
+            fw.className = "firework";
+            fw.style.left = x + "px";
+            fw.style.top = y + "px";
+            fw.style.background = `hsl(${Math.random()*360},100%,60%)`;
+            document.body.appendChild(fw);
+
+            setTimeout(() => fw.remove(), 1000);
+        }
+    }
+
+    function accepted() {
+        // Fuegos artificiales
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                fireworkExplosion(
+                    Math.random() * window.innerWidth,
+                    Math.random() * window.innerHeight
+                );
+            }, i * 400);
+        }
+
+        // Explosión extra de corazones
+        for (let i = 0; i < 30; i++) {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.innerHTML = "♥";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = "3s";
+            heart.style.fontSize = "30px";
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 4000);
+        }
+
+        setTimeout(() => {
+            document.body.innerHTML = `
+                <div style="
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                    height:100vh;
+                    flex-direction:column;
+                    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+                    font-family:'Segoe UI', Arial;
+                    text-align:center;
+                ">
+                    <h1 style="color:#e63946; font-size:45px;">
+                        Sabía que dirías que sí 😍♥
+                    </h1>
+                    <p style="font-size:24px;">
+                        Ahora oficialmente eres mi Valentine 💖
+                    </p>
+                </div>
+            `;
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>
